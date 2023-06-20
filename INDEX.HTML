@@ -55,7 +55,7 @@
               url += '?LINEuserId=' + LINEuserId;
               url += '&displayName=' + displayName;
               url += '&pictureUrl=' + pictureUrl;
-              window.location.href = url;
+              document.getElementById("formframe").src = url;
             }
           })
           .catch(error => console.error(error));
