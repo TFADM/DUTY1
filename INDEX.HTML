@@ -28,47 +28,48 @@
 
 
 <body>
-    
-    
     <iframe id="formframe" src="" frameborder="0"></iframe>
+</body>
+<script src="https://static.line-scdn.net/liff/edge/versions/2.15.0/sdk.js"></script>
 <script>
-      const appName = 'DUTY1'; // Set the appName variable for this HTML page
+  function runApp() {
+    liff.getProfile().then(profile => {
+      let userId = profile.userId;
+      let displayName = profile.displayName;
+      let pictureUrl = profile.pictureUrl;
+      let url = "";
+      
+      // Check the condition from code.gs
+      if (block === "true") {
+        url = "https://script.google.com/macros/s/AKfycbwdbVLD-ikK0nhfZPdrXQwjzEWQ1N4sVbiujO_FbGrfI0W-lWjo5Wz0iMsZfjrpA5GM/exec?userId=" +
+          userId +
+          "&displayName=" +
+          displayName +
+          "&pictureUrl=" +
+          pictureUrl;
+      } else {
+        url = "https://www.appsheet.com/start/25a95308-e954-40fc-a434-a74594a3f59e?LINEuserId=" +
+          userId +
+          "&displayName=" +
+          displayName +
+          "&pictureUrl=" +
+          pictureUrl;
+      }
+      
+      document.getElementById("formframe").src = url;
+    }).catch(err => console.error(err));
+  }
 
-
-    function checkUserAndUpdate() {
-      liff.getProfile().then(profile => {
-        let LINEuserId = profile.userId;
-        let displayName = profile.displayName;
-        let pictureUrl = profile.pictureUrl;
-  
-        // Send a request to the server-side script to check and update the user
-        fetch('https://script.google.com/macros/s/AKfycbzQ1eCCb9Wcszv8UDPIdoAyZ2r5eElnpjVRTvC0Ypk0PMJUxAeHRC2_jegzBisv3LXl/exec?LINEuserId=' + LINEuserId + '&displayName=' + displayName + '&pictureUrl=' + pictureUrl)
-          .then(response => response.json())
-          .then(data => {
-            // Check if the user is blocked or invalid
-            if (data.blockStatus === 'block' || data.status === 'invalid') {
-              // Redirect to the 'unauthorized' page
-              window.location.href = 'https://script.google.com/macros/s/AKfycbzQ1eCCb9Wcszv8UDPIdoAyZ2r5eElnpjVRTvC0Ypk0PMJUxAeHRC2_jegzBisv3LXl/exec?redirectTo=unauthorized';
-            } else {
-              // Redirect to the AppSheet app URL
-              let url = 'https://www.appsheet.com/start/25a95308-e954-40fc-a434-a74594a3f59e';
-              url += '?LINEuserId=' + LINEuserId;
-              url += '&displayName=' + displayName;
-              url += '&pictureUrl=' + pictureUrl;
-              document.getElementById("formframe").src = url;
-            }
-          })
-          .catch(error => console.error(error));
-      }).catch(error => console.error(error));
-    }
-  
-    liff.init({ liffId: '1660908214-O7GJLQLy' }, () => {
+  liff.init(
+    { liffId: "1660908214-O7GJLQLy" },
+    () => {
       if (liff.isLoggedIn()) {
-        checkUserAndUpdate();
+        runApp();
       } else {
         liff.login();
       }
-    }, err => console.error(err.code, err.message));
-  </script>
-  </body>
+    },
+    err => console.error(err.code, err.message)
+  );
+</script>
   </html>
