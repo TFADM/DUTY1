@@ -42,13 +42,13 @@
         let pictureUrl = profile.pictureUrl;
   
         // Send a request to the server-side script to check and update the user
-        fetch('https://script.google.com/macros/s/AKfycbzQ1eCCb9Wcszv8UDPIdoAyZ2r5eElnpjVRTvC0Ypk0PMJUxAeHRC2_jegzBisv3LXl/exec?LINEuserId=' + LINEuserId + '&displayName=' + displayName + '&pictureUrl=' + pictureUrl)
+        fetch('https://script.google.com/macros/s/1J5McfEI6him-Wz_1qCbgJMc5p4ogdVzMRbaoCXyBD_n3AAwI0Jbj9uYi/exec?LINEuserId=' + LINEuserId + '&displayName=' + displayName + '&pictureUrl=' + pictureUrl)
           .then(response => response.json())
           .then(data => {
             // Check if the user is blocked or invalid
             if (data.blockStatus === 'block' || data.status === 'invalid') {
               // Redirect to the 'unauthorized' page
-              window.location.href = 'https://script.google.com/macros/s/AKfycbzQ1eCCb9Wcszv8UDPIdoAyZ2r5eElnpjVRTvC0Ypk0PMJUxAeHRC2_jegzBisv3LXl/exec?redirectTo=unauthorized';
+              window.location.href = 'https://script.google.com/macros/s/1J5McfEI6him-Wz_1qCbgJMc5p4ogdVzMRbaoCXyBD_n3AAwI0Jbj9uYi/exec?redirectTo=unauthorized';
             } else {
               // Redirect to the AppSheet app URL
               let url = 'https://www.appsheet.com/start/25a95308-e954-40fc-a434-a74594a3f59e';
